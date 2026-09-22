@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="个人介绍 — 关于我、技能与联系方式" />
+  <title>张三 · 个人主页</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0f0f12;
+      --bg-elevated: #1a1a21;
+      --text: #e8e6e3;
+      --text-muted: #9b9893;
+      --accent: #c9a227;
+      --accent-soft: rgba(201, 162, 39, 0.15);
+      --border: rgba(255, 255, 255, 0.08);
+      --radius: 12px;
+      --font-serif: "Noto Serif SC", serif;
+      --font-sans: "DM Sans", system-ui, sans-serif;
+      --max-width: 720px;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: var(--font-sans);
+      font-size: 1.0625rem;
+      line-height: 1.65;
+      color: var(--text);
+      background: var(--bg);
+      background-image:
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(201, 162, 39, 0.12), transparent),
+        radial-gradient(ellipse 60% 40% at 100% 100%, rgba(80, 70, 120, 0.15), transparent);
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+
+    a:hover {
+      opacity: 0.85;
+      text-decoration: underline;
+    }
+
+    .skip-link {
+      position: absolute;
+      left: -9999px;
+      top: 0;
+      padding: 0.5rem 1rem;
+      background: var(--accent);
+      color: var(--bg);
+      z-index: 100;
+    }
+
+    .skip-link:focus {
+      left: 1rem;
+      top: 1rem;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(12px);
+      background: rgba(15, 15, 18, 0.75);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-inner {
+      max-width: calc(var(--max-width) + 4rem);
+      margin: 0 auto;
+      padding: 0.875rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .logo {
+      font-family: var(--font-serif);
+      font-weight: 600;
+      font-size: 1.125rem;
+      color: var(--text);
+      letter-spacing: 0.02em;
+    }
+
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25rem 1.25rem;
+    }
+
+    nav a {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-decoration: none;
+    }
+
+    nav a:hover {
+      color: var(--text);
+      text-decoration: none;
+      opacity: 1;
+    }
+
+    main {
+      max-width: calc(var(--max-width) + 4rem);
+      margin: 0 auto;
+      padding: 3rem 1.5rem 5rem;
+    }
+
+    section {
+      margin-bottom: 4rem;
+    }
+
+    section:last-of-type {
+      margin-bottom: 0;
+    }
+
+    .hero {
+      padding: 2rem 0 3rem;
+      margin-bottom: 1rem;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: var(--accent-soft);
+      padding: 0.35rem 0.75rem;
+      border-radius: 999px;
+      margin-bottom: 1.25rem;
+    }
+
+    h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(2.25rem, 6vw, 3.25rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin: 0 0 1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .hero-lead {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      max-width: 36ch;
+      margin: 0 0 1.75rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.65rem 1.25rem;
+      border-radius: var(--radius);
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      transition: transform 0.15s, background 0.2s;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #1a1510;
+    }
+
+    .btn-primary:hover {
+      opacity: 1;
+      text-decoration: none;
+      transform: translateY(-1px);
+    }
+
+    .btn-ghost {
+      border: 1px solid var(--border);
+      color: var(--text);
+      background: transparent;
+    }
+
+    .btn-ghost:hover {
+      background: var(--bg-elevated);
+      text-decoration: none;
+      opacity: 1;
+    }
+
+    h2 {
+      font-family: var(--font-serif);
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin: 0 0 1.25rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .about-grid {
+      display: grid;
+      gap: 1.5rem;
+    }
+
+    @media (min-width: 600px) {
+      .about-grid {
+        grid-template-columns: 140px 1fr;
+        align-items: start;
+      }
+    }
+
+    .avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-soft), var(--bg-elevated));
+      border: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-serif);
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin: 0 auto;
+    }
+
+    @media (min-width: 600px) {
+      .avatar {
+        margin: 0;
+      }
+    }
+
+    .skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .tag {
+      font-size: 0.85rem;
+      padding: 0.35rem 0.75rem;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      color: var(--text-muted);
+    }
+
+    .timeline {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .timeline li {
+      padding: 1.25rem 1.35rem;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      border-left: 3px solid var(--accent);
+    }
+
+    .timeline time {
+      display: block;
+      font-size: 0.8rem;
+      color: var(--accent);
+      font-weight: 600;
+      margin-bottom: 0.35rem;
+    }
+
+    .timeline h3 {
+      margin: 0 0 0.35rem;
+      font-size: 1.05rem;
+      font-weight: 600;
+    }
+
+    .timeline p {
+      margin: 0;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    .project-cards {
+      display: grid;
+      gap: 1rem;
+    }
+
+    @media (min-width: 520px) {
+      .project-cards {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .card {
+      padding: 1.25rem;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      transition: border-color 0.2s;
+    }
+
+    .card:hover {
+      border-color: rgba(201, 162, 39, 0.35);
+    }
+
+    .card h3 {
+      margin: 0 0 0.5rem;
+      font-size: 1rem;
+    }
+
+    .card p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .contact-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .contact-list li {
+      padding: 0.65rem 0;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1rem;
+    }
+
+    .contact-list li:last-child {
+      border-bottom: none;
+    }
+
+    .contact-label {
+      color: var(--text-muted);
+      min-width: 4.5rem;
+      font-size: 0.9rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem 1.5rem;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      border-top: 1px solid var(--border);
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到主要内容</a>
+
+  <header>
+    <div class="nav-inner">
+      <span class="logo">张三</span>
+      <nav aria-label="页面导航">
+        <ul>
+          <li><a href="#about">关于</a></li>
+          <li><a href="#experience">经历</a></li>
+          <li><a href="#projects">项目</a></li>
+          <li><a href="#contact">联系</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" aria-labelledby="hero-title">
+      <span class="hero-badge">个人主页</span>
+      <h1 id="hero-title">你好，我是张三</h1>
+      <p class="hero-lead">
+        全栈开发者，喜欢用清晰的设计与可靠的代码解决问题。目前关注 Web 体验、自动化与开源协作。
+      </p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#contact">与我联系</a>
+        <a class="btn btn-ghost" href="#projects">查看项目</a>
+      </div>
+    </section>
+
+    <section id="about" aria-labelledby="about-title">
+      <h2 id="about-title">关于我</h2>
+      <div class="about-grid">
+        <div class="avatar" aria-hidden="true">张</div>
+        <div>
+          <p>
+            我毕业于某某大学计算机相关专业，有数年互联网产品开发经验。日常写 TypeScript、Python，也乐于做产品原型与性能优化。
+          </p>
+          <p>
+            工作之余喜欢阅读、徒步，偶尔写技术博客分享踩坑记录。相信好的软件应该既好用又耐看。
+          </p>
+          <div class="skills" aria-label="技能标签">
+            <span class="tag">HTML / CSS</span>
+            <span class="tag">JavaScript / TypeScript</span>
+            <span class="tag">React / Vue</span>
+            <span class="tag">Node.js</span>
+            <span class="tag">Git</span>
+            <span class="tag">UI 设计</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="experience" aria-labelledby="exp-title">
+      <h2 id="exp-title">经历</h2>
+      <ol class="timeline">
+        <li>
+          <time datetime="2022">2022 — 至今</time>
+          <h3>高级前端工程师 · 某科技公司</h3>
+          <p>负责核心业务后台与营销站点，推动组件库与 CI 流程，页面性能提升约 30%。</p>
+        </li>
+        <li>
+          <time datetime="2019">2019 — 2022</time>
+          <h3>全栈开发 · 创业公司</h3>
+          <p>从 0 到 1 搭建 SaaS 产品，涵盖 API、管理端与用户端，参与技术选型与团队招聘。</p>
+        </li>
+        <li>
+          <time datetime="2017">2017 — 2019</time>
+          <h3>实习 / 初级开发</h3>
+          <p>参与企业内部工具与数据可视化项目，打下工程化与协作基础。</p>
+        </li>
+      </ol>
+    </section>
+
+    <section id="projects" aria-labelledby="proj-title">
+      <h2 id="proj-title">精选项目</h2>
+      <div class="project-cards">
+        <article class="card">
+          <h3>个人知识库</h3>
+          <p>基于静态站点生成器的笔记站，支持全文搜索与暗色主题，部署在边缘 CDN。</p>
+        </article>
+        <article class="card">
+          <h3>任务看板</h3>
+          <p>轻量级团队协作看板，实时同步、拖拽排序，开源在 GitHub。</p>
+        </article>
+        <article class="card">
+          <h3>CLI 工具箱</h3>
+          <p>常用脚本集合：批量重命名、日志分析、环境检查，减少重复手工操作。</p>
+        </article>
+        <article class="card">
+          <h3>设计资源站</h3>
+          <p>收集免费字体与配色方案的单页应用，纯前端实现，无后端依赖。</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="contact" aria-labelledby="contact-title">
+      <h2 id="contact-title">联系方式</h2>
+      <ul class="contact-list">
+        <li>
+          <span class="contact-label">邮箱</span>
+          <a href="mailto:hello@example.com">hello@example.com</a>
+        </li>
+        <li>
+          <span class="contact-label">GitHub</span>
+          <a href="https://github.com" rel="noopener noreferrer">github.com/yourname</a>
+        </li>
+        <li>
+          <span class="contact-label">所在地</span>
+          <span>中国 · 上海</span>
+        </li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    <p>© <span id="year"></span> 张三 · 用 HTML 与一点心意搭建</p>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
