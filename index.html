@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>简单页面</title>
+    <title>登录</title>
     <style>
       * {
         box-sizing: border-box;
@@ -12,58 +12,178 @@
         margin: 0;
         min-height: 100vh;
         font-family: system-ui, sans-serif;
-        background: #f4f6f8;
+        background: linear-gradient(135deg, #e8eef7 0%, #f4f6f8 50%, #dce8f5 100%);
         color: #1a1a1a;
         display: flex;
         align-items: center;
         justify-content: center;
         padding: 1rem;
       }
-      main {
-        max-width: 28rem;
+      .card {
+        width: 100%;
+        max-width: 22rem;
         background: #fff;
         border-radius: 12px;
         padding: 2rem;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
       }
       h1 {
-        margin-top: 0;
+        margin: 0 0 0.25rem;
         font-size: 1.5rem;
       }
-      p {
-        line-height: 1.6;
-        color: #444;
+      .subtitle {
+        margin: 0 0 1.5rem;
+        font-size: 0.9rem;
+        color: #64748b;
       }
-      button {
-        margin-top: 1rem;
-        padding: 0.6rem 1.2rem;
+      label {
+        display: block;
+        margin-bottom: 0.35rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: #334155;
+      }
+      input[type="text"],
+      input[type="password"] {
+        width: 100%;
+        padding: 0.65rem 0.75rem;
+        margin-bottom: 1rem;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        font-size: 1rem;
+      }
+      input:focus {
+        outline: none;
+        border-color: #2563eb;
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+      }
+      .row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 1.25rem;
+        font-size: 0.875rem;
+      }
+      .row label {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        margin: 0;
+        font-weight: 400;
+        color: #475569;
+        cursor: pointer;
+      }
+      .row a {
+        color: #2563eb;
+        text-decoration: none;
+      }
+      .row a:hover {
+        text-decoration: underline;
+      }
+      button[type="submit"] {
+        width: 100%;
+        padding: 0.7rem;
         border: none;
         border-radius: 8px;
         background: #2563eb;
         color: #fff;
         font-size: 1rem;
+        font-weight: 600;
         cursor: pointer;
       }
-      button:hover {
+      button[type="submit"]:hover {
         background: #1d4ed8;
       }
       #msg {
         margin-top: 1rem;
-        font-weight: 600;
+        font-size: 0.875rem;
+        text-align: center;
+        min-height: 1.25rem;
+      }
+      #msg.error {
+        color: #dc2626;
+      }
+      #msg.ok {
+        color: #16a34a;
+      }
+      .footer {
+        margin-top: 1.5rem;
+        text-align: center;
+        font-size: 0.875rem;
+        color: #64748b;
+      }
+      .footer a {
         color: #2563eb;
+        text-decoration: none;
+      }
+      .footer a:hover {
+        text-decoration: underline;
       }
     </style>
   </head>
   <body>
-    <main>
-      <h1>你好，世界</h1>
-      <p>这是一个简单的 HTML 页面示例，包含标题、段落和按钮。</p>
-      <button type="button" id="btn">点我</button>
-      <p id="msg" aria-live="polite"></p>
+    <main class="card">
+      <h1>欢迎回来</h1>
+      <p class="subtitle">请登录你的账号</p>
+
+      <form id="login-form" novalidate>
+        <label for="username">用户名</label>
+        <input
+          id="username"
+          name="username"
+          type="text"
+          autocomplete="username"
+          placeholder="请输入用户名"
+          required
+        />
+
+        <label for="password">密码</label>
+        <input
+          id="password"
+          name="password"
+          type="password"
+          autocomplete="current-password"
+          placeholder="请输入密码"
+          required
+          minlength="6"
+        />
+
+        <div class="row">
+          <label>
+            <input type="checkbox" name="remember" />
+            记住我
+          </label>
+          <a href="#">忘记密码？</a>
+        </div>
+
+        <button type="submit">登录</button>
+        <p id="msg" role="status" aria-live="polite"></p>
+      </form>
+
+      <p class="footer">还没有账号？<a href="#">立即注册</a></p>
     </main>
+
     <script>
-      document.getElementById("btn").addEventListener("click", function () {
-        document.getElementById("msg").textContent = "按钮已点击！";
+      document.getElementById("login-form").addEventListener("submit", function (e) {
+        e.preventDefault();
+        var msg = document.getElementById("msg");
+        var username = document.getElementById("username").value.trim();
+        var password = document.getElementById("password").value;
+
+        msg.className = "";
+        if (!username) {
+          msg.textContent = "请输入用户名";
+          msg.className = "error";
+          return;
+        }
+        if (password.length < 6) {
+          msg.textContent = "密码至少 6 位";
+          msg.className = "error";
+          return;
+        }
+
+        msg.textContent = "登录成功（演示，未连接服务器）";
+        msg.className = "ok";
       });
     </script>
   </body>
