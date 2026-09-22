@@ -1,0 +1,18 @@
+{
+  "pages": [
+    {
+      "path": "pages/game/game",
+      "style": {
+        "navigationBarTitleText": "三骰猜大小",
+        "navigationBarBackgroundColor": "#1a1f3b",
+        "navigationBarTextStyle": "white"
+      }
+    }
+  ],
+  "globalStyle": {
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "三骰猜大小",
+    "navigationBarBackgroundColor": "#1a1f3b",
+    "backgroundColor": "#1a1f3b"
+  }
+}
