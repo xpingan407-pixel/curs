@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="个人介绍 — 关于我、技能与联系方式" />
+    <title>个人介绍 | 张三</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #0f1419;
+        --surface: #1a2332;
+        --surface-hover: #243044;
+        --text: #e8ecf1;
+        --text-muted: #94a3b8;
+        --accent: #38bdf8;
+        --accent-soft: rgba(56, 189, 248, 0.15);
+        --border: rgba(148, 163, 184, 0.12);
+        --radius: 12px;
+        --max-width: 960px;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Noto Sans SC", system-ui, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.65;
+        min-height: 100vh;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background:
+          radial-gradient(ellipse 80% 50% at 50% -20%, rgba(56, 189, 248, 0.18), transparent),
+          radial-gradient(ellipse 60% 40% at 100% 50%, rgba(99, 102, 241, 0.08), transparent);
+        pointer-events: none;
+        z-index: -1;
+      }
+
+      a {
+        color: var(--accent);
+        text-decoration: none;
+        transition: opacity 0.2s;
+      }
+
+      a:hover {
+        opacity: 0.85;
+        text-decoration: underline;
+      }
+
+      .skip-link {
+        position: absolute;
+        left: -9999px;
+        top: 0;
+        padding: 0.5rem 1rem;
+        background: var(--accent);
+        color: var(--bg);
+        z-index: 100;
+      }
+
+      .skip-link:focus {
+        left: 1rem;
+        top: 1rem;
+      }
+
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        backdrop-filter: blur(12px);
+        background: rgba(15, 20, 25, 0.75);
+        border-bottom: 1px solid var(--border);
+      }
+
+      .nav-inner {
+        max-width: var(--max-width);
+        margin: 0 auto;
+        padding: 0.875rem 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+      }
+
+      .logo {
+        font-weight: 700;
+        font-size: 1.1rem;
+        color: var(--text);
+        letter-spacing: 0.02em;
+      }
+
+      nav ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.25rem 1.25rem;
+      }
+
+      nav a {
+        color: var(--text-muted);
+        font-size: 0.9rem;
+        font-weight: 500;
+        text-decoration: none;
+      }
+
+      nav a:hover {
+        color: var(--text);
+        text-decoration: none;
+        opacity: 1;
+      }
+
+      main {
+        max-width: var(--max-width);
+        margin: 0 auto;
+        padding: 2rem 1.5rem 4rem;
+      }
+
+      .hero {
+        display: grid;
+        gap: 2rem;
+        align-items: center;
+        padding: 3rem 0 4rem;
+      }
+
+      @media (min-width: 720px) {
+        .hero {
+          grid-template-columns: auto 1fr;
+          padding: 4rem 0 5rem;
+        }
+      }
+
+      .avatar {
+        width: 140px;
+        height: 140px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--accent), #6366f1);
+        display: grid;
+        place-items: center;
+        font-size: 3rem;
+        font-weight: 700;
+        color: #fff;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+        border: 3px solid var(--surface);
+      }
+
+      .hero h1 {
+        margin: 0 0 0.5rem;
+        font-size: clamp(1.75rem, 4vw, 2.5rem);
+        font-weight: 700;
+        letter-spacing: -0.02em;
+      }
+
+      .hero .tagline {
+        margin: 0 0 1rem;
+        font-size: 1.15rem;
+        color: var(--accent);
+        font-weight: 500;
+      }
+
+      .hero .intro {
+        margin: 0 0 1.5rem;
+        color: var(--text-muted);
+        max-width: 36rem;
+      }
+
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.65rem 1.25rem;
+        border-radius: 999px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+        text-decoration: none;
+        transition: transform 0.15s, background 0.2s;
+      }
+
+      .btn-primary {
+        background: var(--accent);
+        color: var(--bg);
+      }
+
+      .btn-primary:hover {
+        opacity: 1;
+        transform: translateY(-1px);
+        text-decoration: none;
+      }
+
+      .btn-ghost {
+        background: var(--surface);
+        color: var(--text);
+        border: 1px solid var(--border);
+      }
+
+      .btn-ghost:hover {
+        background: var(--surface-hover);
+        text-decoration: none;
+        opacity: 1;
+      }
+
+      section {
+        margin-bottom: 3.5rem;
+      }
+
+      section h2 {
+        margin: 0 0 1.25rem;
+        font-size: 1.35rem;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      section h2::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: var(--border);
+      }
+
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 1.5rem;
+      }
+
+      .card p {
+        margin: 0;
+        color: var(--text-muted);
+      }
+
+      .skills-grid {
+        display: grid;
+        gap: 0.75rem;
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      }
+
+      .skill-tag {
+        background: var(--accent-soft);
+        color: var(--accent);
+        padding: 0.5rem 0.875rem;
+        border-radius: 8px;
+        font-size: 0.875rem;
+        font-weight: 500;
+        text-align: center;
+        border: 1px solid rgba(56, 189, 248, 0.25);
+      }
+
+      .timeline {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .timeline-item {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 1.25rem 1.5rem;
+        border-left: 3px solid var(--accent);
+      }
+
+      .timeline-item time {
+        display: block;
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        margin-bottom: 0.35rem;
+      }
+
+      .timeline-item h3 {
+        margin: 0 0 0.35rem;
+        font-size: 1.05rem;
+      }
+
+      .timeline-item p {
+        margin: 0;
+        color: var(--text-muted);
+        font-size: 0.95rem;
+      }
+
+      .contact-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+
+      .contact-row {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.75rem 1rem;
+        background: var(--surface);
+        border-radius: var(--radius);
+        border: 1px solid var(--border);
+      }
+
+      .contact-label {
+        min-width: 4.5rem;
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        font-weight: 500;
+      }
+
+      footer {
+        max-width: var(--max-width);
+        margin: 0 auto;
+        padding: 2rem 1.5rem;
+        border-top: 1px solid var(--border);
+        text-align: center;
+        color: var(--text-muted);
+        font-size: 0.85rem;
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">跳到主要内容</a>
+
+    <header>
+      <div class="nav-inner">
+        <span class="logo">张三</span>
+        <nav aria-label="页面导航">
+          <ul>
+            <li><a href="#about">关于</a></li>
+            <li><a href="#skills">技能</a></li>
+            <li><a href="#experience">经历</a></li>
+            <li><a href="#contact">联系</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="avatar" aria-hidden="true">张</div>
+        <div>
+          <h1 id="hero-title">你好，我是张三</h1>
+          <p class="tagline">全栈开发者 · 产品设计爱好者</p>
+          <p class="intro">
+            我专注于用简洁的代码解决真实问题，喜欢探索新技术，也重视用户体验与可维护性。
+            欢迎了解我的经历与作品，也期待与你交流合作。
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#contact">联系我</a>
+            <a class="btn btn-ghost" href="#about">了解更多</a>
+          </div>
+        </div>
+      </section>
+
+      <section id="about" aria-labelledby="about-heading">
+        <h2 id="about-heading">关于我</h2>
+        <div class="card">
+          <p>
+            我是一名软件工程师，拥有多年 Web 与移动端开发经验。日常工作包括需求分析、架构设计、
+            前后端实现与性能优化。业余时间会写技术博客、参与开源，或琢磨 side project。
+            我相信持续学习与清晰沟通，是做好产品的关键。
+          </p>
+        </div>
+      </section>
+
+      <section id="skills" aria-labelledby="skills-heading">
+        <h2 id="skills-heading">技能</h2>
+        <div class="skills-grid">
+          <span class="skill-tag">HTML / CSS</span>
+          <span class="skill-tag">JavaScript / TypeScript</span>
+          <span class="skill-tag">React / Vue</span>
+          <span class="skill-tag">Node.js</span>
+          <span class="skill-tag">Python</span>
+          <span class="skill-tag">SQL / 数据库</span>
+          <span class="skill-tag">Git / CI</span>
+          <span class="skill-tag">UI / UX 基础</span>
+        </div>
+      </section>
+
+      <section id="experience" aria-labelledby="experience-heading">
+        <h2 id="experience-heading">经历</h2>
+        <div class="timeline">
+          <article class="timeline-item">
+            <time datetime="2022">2022 — 至今</time>
+            <h3>高级软件工程师 · 某科技公司</h3>
+            <p>负责核心业务平台的前后端开发与团队协作，推动工程规范与交付效率提升。</p>
+          </article>
+          <article class="timeline-item">
+            <time datetime="2019">2019 — 2022</time>
+            <h3>软件工程师 · 某互联网公司</h3>
+            <p>参与多个用户-facing 产品从 0 到 1，积累全栈与跨职能协作经验。</p>
+          </article>
+          <article class="timeline-item">
+            <time datetime="2015">2015 — 2019</time>
+            <h3>计算机科学 · 某某大学</h3>
+            <p>本科阶段系统学习计算机基础，参与实验室项目与编程竞赛。</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="contact" aria-labelledby="contact-heading">
+        <h2 id="contact-heading">联系方式</h2>
+        <div class="contact-list">
+          <div class="contact-row">
+            <span class="contact-label">邮箱</span>
+            <a href="mailto:zhangsan@example.com">zhangsan@example.com</a>
+          </div>
+          <div class="contact-row">
+            <span class="contact-label">GitHub</span>
+            <a href="https://github.com/" target="_blank" rel="noopener noreferrer">github.com/yourname</a>
+          </div>
+          <div class="contact-row">
+            <span class="contact-label">所在地</span>
+            <span>中国 · 北京</span>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>© <span id="year"></span> 张三 · 个人介绍页</p>
+    </footer>
+
+    <script>
+      document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+  </body>
+</html>
