@@ -1,0 +1,6 @@
+# Apache：禁止直接执行 uploads 目录下的脚本（若使用 Nginx 请在站点配置中禁止 PHP 解析该路径）
+<FilesMatch "\.php$">
+    Require all denied
+</FilesMatch>
+Options -ExecCGI
+php_flag engine off
