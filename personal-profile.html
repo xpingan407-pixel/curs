@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="个人简介 — 关于我、技能与联系方式" />
+  <title>个人简介 | 张三</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0f1419;
+      --surface: #1a2332;
+      --surface-hover: #243044;
+      --text: #e8edf4;
+      --text-muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent-soft: rgba(56, 189, 248, 0.15);
+      --border: rgba(148, 163, 184, 0.12);
+      --radius: 16px;
+      --shadow: 0 24px 48px rgba(0, 0, 0, 0.35);
+      --max-width: 960px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Noto Sans SC", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(56, 189, 248, 0.12), transparent),
+        radial-gradient(ellipse 60% 40% at 100% 50%, rgba(99, 102, 241, 0.08), transparent);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+
+    a:hover {
+      opacity: 0.85;
+      text-decoration: underline;
+    }
+
+    .wrap {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 2rem 1.25rem 4rem;
+    }
+
+    /* Header / Hero */
+    .hero {
+      text-align: center;
+      padding: 3rem 0 2.5rem;
+    }
+
+    .avatar {
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 1.5rem;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), #6366f1);
+      padding: 3px;
+      box-shadow: var(--shadow);
+    }
+
+    .avatar-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: var(--surface);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .hero h1 {
+      font-size: clamp(1.75rem, 4vw, 2.25rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero .tagline {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      max-width: 28em;
+      margin: 0 auto 1.25rem;
+    }
+
+    .hero-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      justify-content: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.6rem 1.1rem;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      text-decoration: none;
+      transition: background 0.2s, border-color 0.2s, transform 0.15s;
+    }
+
+    .btn:hover {
+      background: var(--surface-hover);
+      border-color: rgba(56, 189, 248, 0.35);
+      text-decoration: none;
+      transform: translateY(-1px);
+    }
+
+    .btn-primary {
+      background: var(--accent-soft);
+      border-color: rgba(56, 189, 248, 0.4);
+      color: var(--accent);
+    }
+
+    /* Nav */
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1.25rem;
+      justify-content: center;
+      padding: 1rem 0 2rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 2rem;
+    }
+
+    nav a {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-decoration: none;
+    }
+
+    nav a:hover {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    /* Sections */
+    section {
+      margin-bottom: 2.75rem;
+    }
+
+    section h2 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    section h2::before {
+      content: "";
+      width: 4px;
+      height: 1.1em;
+      background: var(--accent);
+      border-radius: 2px;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem 1.75rem;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+    }
+
+    .card p {
+      color: var(--text-muted);
+    }
+
+    .card p + p {
+      margin-top: 0.75rem;
+    }
+
+    /* Skills */
+    .skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .skill-tag {
+      padding: 0.35rem 0.85rem;
+      background: var(--accent-soft);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      border-radius: 999px;
+      font-size: 0.85rem;
+      color: var(--text);
+    }
+
+    /* Timeline */
+    .timeline {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .timeline li {
+      position: relative;
+      padding-left: 1.25rem;
+      border-left: 2px solid var(--border);
+    }
+
+    .timeline li:last-child {
+      border-left-color: transparent;
+    }
+
+    .timeline .time {
+      font-size: 0.8rem;
+      color: var(--accent);
+      font-weight: 500;
+      margin-bottom: 0.25rem;
+    }
+
+    .timeline h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.35rem;
+    }
+
+    .timeline p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    /* Projects */
+    .project-grid {
+      display: grid;
+      gap: 1rem;
+    }
+
+    @media (min-width: 600px) {
+      .project-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .project-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      transition: border-color 0.2s, transform 0.15s;
+    }
+
+    .project-card:hover {
+      border-color: rgba(56, 189, 248, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .project-card h3 {
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .project-card p {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    /* Contact */
+    .contact-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .contact-list li {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    .contact-list strong {
+      color: var(--text);
+      min-width: 4.5em;
+      font-weight: 500;
+    }
+
+    footer {
+      text-align: center;
+      padding-top: 2rem;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      border-top: 1px solid var(--border);
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <div class="avatar" role="img" aria-label="头像">
+        <div class="avatar-inner">张</div>
+        <!-- 可替换为图片: <img src="your-photo.jpg" alt="张三" style="width:100%;height:100%;border-radius:50%;object-fit:cover;" /> -->
+      </div>
+      <h1>张三</h1>
+      <p class="tagline">全栈开发者 · 热爱用代码解决问题，关注用户体验与工程质量</p>
+      <div class="hero-links">
+        <a class="btn btn-primary" href="mailto:zhangsan@example.com">联系我</a>
+        <a class="btn" href="#projects">查看项目</a>
+        <a class="btn" href="https://github.com" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </div>
+    </header>
+
+    <nav aria-label="页面导航">
+      <a href="#about">关于我</a>
+      <a href="#skills">技能</a>
+      <a href="#experience">经历</a>
+      <a href="#projects">项目</a>
+      <a href="#contact">联系</a>
+    </nav>
+
+    <main>
+      <section id="about">
+        <h2>关于我</h2>
+        <div class="card">
+          <p>
+            你好，我是张三，一名有数年经验的软件工程师，目前专注于 Web 开发与云原生相关技术。
+            我喜欢把复杂需求拆解成清晰、可维护的实现，并在团队协作中推动代码规范与自动化。
+          </p>
+          <p>
+            工作之余，我会阅读技术博客、参与开源，或记录学习笔记。相信持续学习与分享能让自己和他人都受益。
+          </p>
+        </div>
+      </section>
+
+      <section id="skills">
+        <h2>技能</h2>
+        <div class="card">
+          <div class="skills">
+            <span class="skill-tag">HTML / CSS</span>
+            <span class="skill-tag">JavaScript / TypeScript</span>
+            <span class="skill-tag">React / Vue</span>
+            <span class="skill-tag">Node.js</span>
+            <span class="skill-tag">Python</span>
+            <span class="skill-tag">SQL</span>
+            <span class="skill-tag">Git</span>
+            <span class="skill-tag">Docker</span>
+            <span class="skill-tag">Linux</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="experience">
+        <h2>经历</h2>
+        <div class="card">
+          <ul class="timeline">
+            <li>
+              <div class="time">2022 — 至今</div>
+              <h3>某某科技有限公司 · 高级前端工程师</h3>
+              <p>负责核心业务前端架构与性能优化，主导组件库与 CI 流程改进。</p>
+            </li>
+            <li>
+              <div class="time">2019 — 2022</div>
+              <h3>某某互联网公司 · 全栈开发</h3>
+              <p>参与多个 B 端与 C 端产品从 0 到 1 的开发与迭代。</p>
+            </li>
+            <li>
+              <div class="time">2015 — 2019</div>
+              <h3>某某大学 · 计算机科学与技术</h3>
+              <p>本科，主修软件工程、数据结构、计算机网络等课程。</p>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="projects">
+        <h2>项目</h2>
+        <div class="project-grid">
+          <article class="project-card">
+            <h3>个人博客系统</h3>
+            <p>基于静态站点生成器搭建的技术博客，支持 Markdown 写作与全文搜索。</p>
+          </article>
+          <article class="project-card">
+            <h3>任务管理小工具</h3>
+            <p>轻量级待办应用，支持标签、截止日期与本地持久化存储。</p>
+          </article>
+          <article class="project-card">
+            <h3>开源组件库贡献</h3>
+            <p>为社区 UI 库修复 Bug 并提交文档改进 PR。</p>
+          </article>
+          <article class="project-card">
+            <h3>数据可视化面板</h3>
+            <p>为内部运营提供实时指标看板，使用图表库展示业务趋势。</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="contact">
+        <h2>联系方式</h2>
+        <div class="card">
+          <ul class="contact-list">
+            <li><strong>邮箱</strong> <a href="mailto:zhangsan@example.com">zhangsan@example.com</a></li>
+            <li><strong>微信</strong> zhangsan_dev（请备注来意）</li>
+            <li><strong>所在地</strong> 中国 · 上海</li>
+          </ul>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>© 2026 张三 · 用 ❤️ 与代码构建</p>
+    </footer>
+  </div>
+</body>
+</html>
