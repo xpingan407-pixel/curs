@@ -88,7 +88,23 @@ def patch_joined_at_format(content: str) -> str:
     if old not in content:
         if "is_object($member->joined_at)" in content:
             return content
-        raise SystemExit("Could not find joined_at->format line in getRoomMembers.")
+        return content
+    return content.replace(old, new)
+
+
+def patch_get_user_rooms_joined_at(content: str) -> str:
+    old = "'joined_at'    => $userRoom->joined_at->format('Y-m-d H:i:s'),"
+    new = (
+        "'joined_at'    => $userRoom->joined_at\n"
+        "                ? (is_object($userRoom->joined_at)\n"
+        "                    ? $userRoom->joined_at->format('Y-m-d H:i:s')\n"
+        "                    : (string) $userRoom->joined_at)\n"
+        "                : null,"
+    )
+    if old not in content:
+        if "is_object($userRoom->joined_at)" in content:
+            return content
+        return content  # optional if layout differs
     return content.replace(old, new)
 
 
@@ -125,6 +141,7 @@ def main() -> None:
     updated = patch_unread_block(updated)
     updated = patch_last_message_preview(updated)
     updated = patch_joined_at_format(updated)
+    updated = patch_get_user_rooms_joined_at(updated)
     updated = patch_member_role(updated)
     if "from_user" in updated:
         updated = patch_remaining_from_user(updated)
