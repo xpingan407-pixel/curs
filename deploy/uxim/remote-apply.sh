@@ -15,6 +15,6 @@ sshpass -p "$UXIM_SSH_PASSWORD" scp -o StrictHostKeyChecking=no \
   "$SCRIPT_DIR/patch-group-chat-fix.py" "$USER@$HOST:/tmp/patch-group-chat-fix.py"
 
 sshpass -p "$UXIM_SSH_PASSWORD" ssh -o StrictHostKeyChecking=no "$USER@$HOST" \
-  "python3 /tmp/patch-group-chat-fix.py '$CHAT_PHP' && (systemctl reload php-fpm-82 2>/dev/null || bt reload 2>/dev/null || true)"
+  "python3 /tmp/patch-group-chat-fix.py '$CHAT_PHP' && (systemctl restart php-fpm-82 2>/dev/null || systemctl reload php-fpm-82 2>/dev/null || bt reload 2>/dev/null || true)"
 
 echo "Patch applied on $HOST"

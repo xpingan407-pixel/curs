@@ -4,7 +4,7 @@ Patch UXIM Chat.php: fix group chat 500 and group image session preview.
 
 - getUserRooms: wrong column from_user -> sender_id (fixes GET /auth/rooms 500)
 - getRoomMembers: null joined_at ->format() (fixes GET .../members 500)
-- last_message content_raw: do not htmlspecialchars() image/video URLs
+- last_message & getMessages content_raw: do not htmlspecialchars() image/video URLs
 - Replace remaining where('from_user' with sender_id in this file
 
 Run on UXIM server:
@@ -65,6 +65,30 @@ def patch_unread_block(content: str) -> str:
                 "Found from_user unread query but excludeSenderId block missing; update patch script."
             )
         return content.replace(old, "->where('sender_id', '<>', $excludeSenderId)")
+    return content
+
+
+GET_MSGS_RAW_OLD = """        foreach ($messagesArray as &$msg) {
+            $msg['content_raw'] = htmlspecialchars($msg['content'], ENT_QUOTES, 'UTF-8');
+        }"""
+
+GET_MSGS_RAW_NEW = """        foreach ($messagesArray as &$msg) {
+            $msgType = $msg['type'] ?? 'text';
+            $msgContent = $msg['content'] ?? '';
+            if (in_array($msgType, ['image', 'video', 'audio'], true)
+                || preg_match('#^https?://#i', (string) $msgContent)) {
+                $msg['content_raw'] = $msgContent;
+            } else {
+                $msg['content_raw'] = htmlspecialchars($msgContent, ENT_QUOTES, 'UTF-8');
+            }
+        }"""
+
+
+def patch_get_messages_content_raw(content: str) -> str:
+    if GET_MSGS_RAW_NEW.strip() in content:
+        return content
+    if GET_MSGS_RAW_OLD in content:
+        return content.replace(GET_MSGS_RAW_OLD, GET_MSGS_RAW_NEW)
     return content
 
 
@@ -140,6 +164,7 @@ def main() -> None:
     updated = original
     updated = patch_unread_block(updated)
     updated = patch_last_message_preview(updated)
+    updated = patch_get_messages_content_raw(updated)
     updated = patch_joined_at_format(updated)
     updated = patch_get_user_rooms_joined_at(updated)
     updated = patch_member_role(updated)
