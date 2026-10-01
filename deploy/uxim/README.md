@@ -1,8 +1,12 @@
-# UXIM 群聊闪退修复
+# UXIM 群聊 / 群内图片修复
 
-## 原因
+## 原因（群内收不到图、闪退）
 
-`Chat.php` 中 `getUserRooms()` 使用不存在的字段 `from_user`（应为 `sender_id`），导致用户存在群会话时 `GET /auth/rooms` 返回 500。`getRoomMembers()` 在 `joined_at` 为空时对 null 调用 `format()` 也会 500。
+1. **`GET /auth/rooms` 返回 500**：`getUserRooms()` 未读数查询使用不存在的字段 `from_user`（应为 `sender_id`）。用户一旦加入群，会话列表拉取失败，客户端无法同步群会话与图片消息。
+2. **`GET /auth/rooms/{id}/members` 500**：`joined_at` 为空时对 null 调用 `format()`。
+3. **会话列表最后一条为图片时**：`content_raw` 对 URL 做 `htmlspecialchars`，部分客户端用 `content_raw` 渲染缩略图会失败（已改为图片/视频类型保留原始 URL）。
+
+图片文件本身在 OSS（`aliyunoss.bsafjkf.cn/chat/...`）上传与 WS 推送经实测正常；问题主要在 **群会话 HTTP 接口崩溃 + 列表预览字段**。
 
 ## 在 UXIM 服务器执行
 

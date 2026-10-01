@@ -1,8 +1,13 @@
 #!/usr/bin/env python3
 """
-Patch UXIM Chat.php: fix group chat 500 on GET /auth/rooms and GET /auth/rooms/{id}/members.
+Patch UXIM Chat.php: fix group chat 500 and group image session preview.
 
-Run on the UXIM app server:
+- getUserRooms: wrong column from_user -> sender_id (fixes GET /auth/rooms 500)
+- getRoomMembers: null joined_at ->format() (fixes GET .../members 500)
+- last_message content_raw: do not htmlspecialchars() image/video URLs
+- Replace remaining where('from_user' with sender_id in this file
+
+Run on UXIM server:
   python3 patch-group-chat-fix.py /www/wwwroot/uxim/app/controller/chat/Chat.php
 """
 from __future__ import annotations
@@ -30,17 +35,45 @@ UNREAD_BLOCK_NEW = """            // 获取未读消息数
             }
             $unreadCount = $unreadQuery->count();"""
 
+LAST_MSG_OLD = """            if ($lastMessage) {
+                $lastMessageData = $lastMessage->toArray();
+                $lastMessageData['content_raw'] = htmlspecialchars($lastMessageData['content'], ENT_QUOTES, 'UTF-8');
+            }"""
+
+LAST_MSG_NEW = """            if ($lastMessage) {
+                $lastMessageData = $lastMessage->toArray();
+                $msgType = $lastMessageData['type'] ?? 'text';
+                $msgContent = $lastMessageData['content'] ?? '';
+                if (in_array($msgType, ['image', 'video', 'audio'], true)
+                    || preg_match('#^https?://#i', (string) $msgContent)) {
+                    $lastMessageData['content_raw'] = $msgContent;
+                } else {
+                    $lastMessageData['content_raw'] = htmlspecialchars($msgContent, ENT_QUOTES, 'UTF-8');
+                }
+            }"""
+
 
 def patch_unread_block(content: str) -> str:
     if UNREAD_BLOCK_NEW.strip() in content:
         return content
-    if UNREAD_BLOCK_OLD not in content:
-        # minimal fallback: wrong column name only
-        old = "->where('from_user', '<>', $userID)"
-        if old not in content:
-            raise SystemExit("Unread block not found (already patched or Chat.php changed).")
+    if UNREAD_BLOCK_OLD in content:
+        return content.replace(UNREAD_BLOCK_OLD, UNREAD_BLOCK_NEW)
+    old = "->where('from_user', '<>', $userID)"
+    if old in content:
+        if "$excludeSenderId" not in content:
+            raise SystemExit(
+                "Found from_user unread query but excludeSenderId block missing; update patch script."
+            )
         return content.replace(old, "->where('sender_id', '<>', $excludeSenderId)")
-    return content.replace(UNREAD_BLOCK_OLD, UNREAD_BLOCK_NEW)
+    return content
+
+
+def patch_last_message_preview(content: str) -> str:
+    if LAST_MSG_NEW.strip() in content:
+        return content
+    if LAST_MSG_OLD in content:
+        return content.replace(LAST_MSG_OLD, LAST_MSG_NEW)
+    return content
 
 
 def patch_joined_at_format(content: str) -> str:
@@ -66,9 +99,14 @@ def patch_member_role(content: str) -> str:
     ):
         if old in content:
             return content.replace(old, new)
-    if "?? 'member'" in content:
-        return content
     return content
+
+
+def patch_remaining_from_user(content: str) -> str:
+    """getMessages / filters may still reference from_user."""
+    return content.replace("where('from_user'", "where('sender_id'").replace(
+        'where("from_user"', 'where("sender_id"'
+    )
 
 
 def main() -> None:
@@ -85,8 +123,11 @@ def main() -> None:
 
     updated = original
     updated = patch_unread_block(updated)
+    updated = patch_last_message_preview(updated)
     updated = patch_joined_at_format(updated)
     updated = patch_member_role(updated)
+    if "from_user" in updated:
+        updated = patch_remaining_from_user(updated)
 
     if updated == original:
         print("No changes applied.")
