@@ -34,3 +34,13 @@ export QIFEIBAO_SSH_PASSWORD='…'
 
 - **nginx**：active（80 / 443 / 8088）
 - **php-fpm-82**：active
+
+## 源站 IP 白名单（ufw）
+
+用户/运维 IP 可在源站 `202.95.14.138` 上放行（示例）：
+
+```bash
+ufw allow from 171.225.203.215 comment 'yejhtf-user-whitelist-YYYYMMDD'
+```
+
+说明：`web.yejhtf.com` 公网走 CDN，**仅源站 ufw 加白不能替代 CDN 侧放行**；若仍打不开后台，需在 CDN（`ywgmwh` / `163.223.146.x`）同步加白或查地域策略。
