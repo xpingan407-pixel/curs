@@ -41,7 +41,8 @@ def main() -> int:
     # Select malicious / probe accounts (never touch master_admin / super_admin rows).
     select_sql = f"""
 SELECT id FROM users
-WHERE role IN ('normal', 'admin')
+WHERE (
+  role = 'normal'
   AND (
     last_login_ip = '{ATTACK_IP}'
     OR last_login_ip_current = '{ATTACK_IP}'
@@ -51,8 +52,18 @@ WHERE role IN ('normal', 'admin')
     OR nickname LIKE '%oast.me%'
     OR invite_code IN ('124', 'i1735376', 'zz'' OR ''1''=''1')
     OR (CHAR_LENGTH(TRIM(invite_code)) = 0 AND created_at >= '2026-09-21' AND created_at < '2026-09-23')
-    OR id IN (101383, 101392, 101398, 101354, 101355, 101551)
-  );
+    OR id IN (101398, 101354, 101355, 101551)
+  )
+)
+OR (
+  role = 'admin'
+  AND (
+    username REGEXP '^(probe|i[0-9]+probe)'
+    OR nickname LIKE '%probe%'
+    OR nickname LIKE '%oast.me%'
+    OR id IN (101383, 101392)
+  )
+);
 """
     out = mysql_exec(host, user, pw, db, select_sql)
     ids = [line.strip() for line in out.splitlines() if line.strip().isdigit()]
@@ -67,12 +78,12 @@ WHERE role IN ('normal', 'admin')
 SET FOREIGN_KEY_CHECKS=0;
 DELETE FROM user_login_devices WHERE user_id IN ({id_list});
 DELETE FROM friends WHERE user_id IN ({id_list}) OR friend_id IN ({id_list});
-DELETE FROM friend_requests WHERE from_user_id IN ({id_list}) OR to_user_id IN ({id_list});
+DELETE FROM friend_requests WHERE sender_id IN ({id_list}) OR receiver_id IN ({id_list});
 DELETE FROM user_blocks WHERE user_id IN ({id_list}) OR blocked_user_id IN ({id_list});
 DELETE FROM device_tokens WHERE user_id IN ({id_list});
 DELETE FROM chat_room_members WHERE user_id IN ({id_list});
 DELETE FROM user_chat_rooms WHERE user_id IN ({id_list});
-DELETE FROM reports WHERE reporter_id IN ({id_list}) OR reported_user_id IN ({id_list});
+DELETE FROM reports WHERE user_id IN ({id_list});
 DELETE FROM users WHERE id IN ({id_list});
 SET FOREIGN_KEY_CHECKS=1;
 """

@@ -101,6 +101,14 @@ def main() -> int:
         "admin 2FA required",
     )
 
+    invite_admin = root / "app/controller/admin/InviteCode.php"
+    patch_file(
+        invite_admin,
+        "                } else {\n                    // 如果提供了code，检查长度是否超过8位\n                    if (strlen($code) > 8) {",
+        "                } else {\n                    if (!preg_match('/^[A-Za-z0-9]{1,8}$/', (string) $code)) {\n                        return Helper::response(false, '邀请码只能包含字母和数字');\n                    }\n                    // 如果提供了code，检查长度是否超过8位\n                    if (strlen($code) > 8) {",
+        "admin invite code charset",
+    )
+
     patch_file(
         user_admin,
         "        $page = Request::param('page', 1);\n        $limit = Request::param('limit', 10);",
