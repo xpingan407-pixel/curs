@@ -1,5 +1,5 @@
 {
-  "version": 19,
+  "version": 20,
   "android_version": 4,
   "android_force_update": 0,
   "android_apk_url": "https://nrhle.com/app.apk",
@@ -7,7 +7,7 @@
   "app_store_id": "1234567890",
   "privacy_url": "https://api.tyyjeb.cn/privacy.html",
   "ws_url": "wss://api.tyyjeb.cn/ws",
-  "update_time": "2026-10-15T12:05:31Z",
+  "update_time": "2026-10-15T12:55:00Z",
   "refresh_interval_seconds": 300,
   "apis": [
     {
