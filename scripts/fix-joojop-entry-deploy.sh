@@ -3,9 +3,8 @@
 # 副本与源站 /www/wwwroot/scripts/fix-joojop-entry-deploy.sh 保持同步。
 set -euo pipefail
 ORIGIN_IP="202.95.14.138"
-ORIGIN_HOST="api.yejhtf.com"
+ORIGIN_HOST="api.tyyjeb.cn"
 SITE_ROOT="/www/wwwroot/api.joojop.com"
-CONF="/www/server/panel/vhost/nginx/api.joojop.com.conf"
 EXT_DIR="/www/server/panel/vhost/nginx/extension/api.joojop.com"
 PROXY_CONF="$EXT_DIR/feibao_proxy.conf"
 
@@ -14,6 +13,7 @@ SRC="/www/wwwroot/scripts/joojop-config-v20.json"
 python3 -c "import json; json.load(open('${SRC}'))"
 cp -f "${SRC}" "${SITE_ROOT}/config.json"
 
+# 写入 extension（由 vhost 内 include extension/api.joojop.com/*.conf 加载，勿在 server 块外 include）
 cat > "$PROXY_CONF" <<NGX
 location ^~ /ws {
     proxy_pass http://${ORIGIN_IP}/ws;
@@ -38,21 +38,22 @@ location ^~ /auth/ {
     proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
     client_max_body_size 50m;
 }
+location ^~ /login {
+    proxy_pass http://${ORIGIN_IP}/login;
+    proxy_set_header Host ${ORIGIN_HOST};
+    proxy_set_header X-Real-IP \$remote_addr;
+    proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+}
 location = /health {
     proxy_pass http://${ORIGIN_IP}/health;
     proxy_set_header Host ${ORIGIN_HOST};
 }
-location = /config.json {
-    proxy_pass http://${ORIGIN_IP}/config.json;
-    proxy_set_header Host api.joojop.com;
-    add_header Cache-Control "no-cache, no-store, must-revalidate" always;
-}
 NGX
 
-if ! grep -q "feibao_proxy.conf" "$CONF" 2>/dev/null; then
-  echo "include $PROXY_CONF;" >> "$CONF"
-fi
+# 清理历史上误追加在 server 块外的 include
+CONF="/www/server/panel/vhost/nginx/api.joojop.com.conf"
+sed -i 's/}include \/www\/server\/panel\/vhost\/nginx\/extension\/api.joojop.com\/feibao_proxy.conf;/}/' "$CONF" 2>/dev/null || true
 
 /www/server/nginx/sbin/nginx -t
 /www/server/nginx/sbin/nginx -s reload
-echo "OK: entry proxies to origin; purge CDN /config.json in panel."
+echo "OK: entry config.json=v20 (static); proxy ws/auth/login/health -> ${ORIGIN_IP} Host ${ORIGIN_HOST}"
