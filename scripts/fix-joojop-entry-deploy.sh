@@ -10,9 +10,9 @@ EXT_DIR="/www/server/panel/vhost/nginx/extension/api.joojop.com"
 PROXY_CONF="$EXT_DIR/feibao_proxy.conf"
 
 mkdir -p "$SITE_ROOT" "$EXT_DIR"
-curl -fsS "http://${ORIGIN_IP}/config.json" -H "Host: api.joojop.com" -o "${SITE_ROOT}/config.json.new"
-python3 -c "import json; json.load(open('${SITE_ROOT}/config.json.new'))"
-mv -f "${SITE_ROOT}/config.json.new" "${SITE_ROOT}/config.json"
+SRC="/www/wwwroot/scripts/joojop-config-v19.json"
+python3 -c "import json; json.load(open('${SRC}'))"
+cp -f "${SRC}" "${SITE_ROOT}/config.json"
 
 cat > "$PROXY_CONF" <<NGX
 location ^~ /ws {
