@@ -11,4 +11,4 @@ Admin user `honguo` on web backend: switching customer chat always showed 孙建
 
 ## Changes applied on server
 - `/www/wwwroot/web.yejhtf.com/assets/chat-DSNVtjZy.js`
-- Cache bust: `rejectack202610151200` in `index.html` and all asset imports
+- Cache bust: `rejectack202610151952` in `index.html` and **all** asset imports (`index-COizttuX.js`, `Chat-OlhWsc-Z.js`, `Layout-B-RyBc3E.js`, `Users-Bn89Tv6-.js`, etc.); mismatched `1200` caused blank admin from cached broken chat chunk
