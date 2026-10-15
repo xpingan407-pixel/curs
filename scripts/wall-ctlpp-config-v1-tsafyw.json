@@ -1,0 +1,44 @@
+{
+  "version": 1,
+  "android_version": 1,
+  "android_apk_url": "https://api.dfkcg.top/downloads/uxim-5.2.3.apk",
+  "android_apk_sha256": "42235e158d74e194838ea14a79bc0b613b57721c29c81ba0360ba148d1687",
+  "android_changelog": "修复强杀后卡在加载中：禁止旁路401误登出、登录后不拆连接",
+  "force_update": false,
+  "app_store_id": "1234567890",
+  "update_time": "2026-10-15T15:45:00Z",
+  "refresh_interval_seconds": 300,
+  "apis": [
+    {
+      "name": "主线路",
+      "base_url": "https://api.dfkcg.top",
+      "region": "global",
+      "priority": 1
+    },
+    {
+      "name": "备用线路1",
+      "base_url": "https://api.hzjgh.com",
+      "region": "global",
+      "priority": 2
+    },
+    {
+      "name": "备用线路2",
+      "base_url": "https://api.hzdaa.com",
+      "region": "global",
+      "priority": 3
+    },
+    {
+      "name": "备用线路3",
+      "base_url": "https://api.qsggq.com",
+      "region": "global",
+      "priority": 4
+    },
+    {
+      "name": "备用线路4",
+      "base_url": "https://api.tsafyw.cn",
+      "region": "global",
+      "priority": 5
+    }
+  ],
+  "auto_update": false
+}
