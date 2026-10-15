@@ -11,4 +11,4 @@
 3. 管理员 chat：`import(...).then(connect)` **不 await**（失败仅 `console.error`）。
 4. `Login-DmC7nm_R.js`：`await router.replace('/dashboard')`。
 
-缓存版本：`rejectack202610151953`（与 `index.html` 一致）。
+缓存版本：`rejectack202610151954`（与 `index.html` 一致）。

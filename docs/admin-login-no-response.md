@@ -13,14 +13,15 @@
 | `api.yejhtf.com/app/controller/Auth.php` | 管理后台登录时若 WS 在线则 `kickUser` 后允许登录，不再直接拒绝 |
 | `web.yejhtf.com/assets/index-COizttuX.js` | 仅当 `api_base_url` 含 `api.tyyjeb.cn` 时才覆盖 `baseURL`；`applyLoginResult` 容错 |
 | `web.yejhtf.com/assets/Login-DmC7nm_R.js` | 进入页清理无效 `api_base_url`；登录失败 Toast |
-| `web.yejhtf.com/index.html` | 资源版本 `rejectack202610151953`（须与 `index-COizttuX.js` 等动态 import 的 `?v=` 一致） |
+| `web.yejhtf.com/index.html` | 资源版本 `rejectack202610151954`（须与 `index-COizttuX.js` 等动态 import 的 `?v=` 一致） |
+| `web.yejhtf.com/assets/chat-DSNVtjZy.js` | 从 `bak.20261015-1712-tyyjeb` 恢复 + 仅 `handleGetChatHistorySuccess` 补丁；`node --check` 通过 |
 | `web.yejhtf.com/assets/index-COizttuX.js` | `applyLoginResult` 不阻塞等待 chat 预加载 |
 | `web.yejhtf.com/assets/Login-DmC7nm_R.js` | 成功后 `router.replace('/dashboard')` |
 | `web.yejhtf.com/assets/*.js` | 凡引用 `chat-DSNVtjZy.js?v=` 的 chunk 与 `index.html` 同版本 |
 
 ## 登录成功但不跳转
 
-接口返回 200 且 message 为「登录成功」，但仍停在 `/login`：多为 `applyLoginResult` 内 **await 加载 chat 模块** 阻塞。修复见 `admin-web/patches/index-applyLoginResult-redirect.md`；源站已改为异步 `import` chat 且 Login 使用 `router.replace('/dashboard')`，版本 `rejectack202610151953`。
+接口返回 200 且 message 为「登录成功」，但仍停在 `/login`：多为 `applyLoginResult` 内 **await 加载 chat 模块** 阻塞。修复见 `admin-web/patches/index-applyLoginResult-redirect.md`；源站已改为异步 `import` chat 且 Login 使用 `router.replace('/dashboard')`；chat 包版本 `rejectack202610151954`。
 
 ## 后台空白 / `Unexpected token '{'`
 
