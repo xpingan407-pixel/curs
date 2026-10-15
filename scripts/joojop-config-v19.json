@@ -1,0 +1,35 @@
+{
+  "version": 19,
+  "android_version": 4,
+  "android_force_update": 0,
+  "android_apk_url": "https://nrhle.com/app.apk",
+  "android_changelog": "优化部分问题",
+  "app_store_id": "1234567890",
+  "privacy_url": "https://api.tyyjeb.cn/privacy.html",
+  "ws_url": "wss://api.tyyjeb.cn/ws",
+  "update_time": "2026-10-15T12:05:31Z",
+  "refresh_interval_seconds": 300,
+  "apis": [
+    {
+      "name": "主线路",
+      "base_url": "https://api.tyyjeb.cn",
+      "ws_url": "wss://api.tyyjeb.cn/ws",
+      "region": "global",
+      "priority": 1
+    },
+    {
+      "name": "备用线路",
+      "base_url": "https://api.tyyjeb.cn",
+      "ws_url": "wss://api.tyyjeb.cn/ws",
+      "region": "global",
+      "priority": 2
+    },
+    {
+      "name": "线路3",
+      "base_url": "https://api.tyyjeb.cn",
+      "ws_url": "wss://api.tyyjeb.cn/ws",
+      "region": "global",
+      "priority": 3
+    }
+  ]
+}
