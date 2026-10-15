@@ -67,7 +67,9 @@ curl -fsS https://api.joojop.com/config.json | jq .version,.apis[0].base_url
 curl -fsS https://api.joojop.com/health | jq .data.ready
 ```
 
-应得到 **version ≥ 18**、`base_url` = `https://api.tyyjeb.cn`、`ready: true`。
+应得到 **version ≥ 20**、三条 `apis[].base_url` 均为 `https://api.tyyjeb.cn`、`ready: true`。
+
+源站 `202.95.14.138` 已统一三条线路为 `api.tyyjeb.cn`（`Index.php` + `public/config.json` + `scripts/joojop-config-v20.json`）。公网 `api.joojop.com` 仍可能缓存入口机 **v12**，需在 CDN 改回源或于 **207.56.20.191** 执行 `fix-joojop-entry-deploy.sh` 后刷新缓存。
 
 ### 方案 B：修复入口机 `207.56.20.191`
 
