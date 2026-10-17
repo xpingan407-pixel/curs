@@ -1,0 +1,22 @@
+[DEFAULT]
+# 部署前请修改：运维 SSH IP、CDN 回源段
+ignoreip = 127.0.0.1/8 ::1 113.5.87.189 163.223.146.0/24
+
+[sshd]
+enabled = true
+port = 17603
+filter = sshd
+maxretry = 5
+findtime = 600
+bantime = 86400
+banaction = ufw
+
+[hz-nginx-crawler]
+enabled = true
+filter = hz-nginx-crawler
+logpath = /var/log/nginx/access.log
+          /var/log/nginx/my-im/*.log
+maxretry = 3
+findtime = 600
+bantime = 2592000
+banaction = ufw
